@@ -2,7 +2,7 @@ module Oak
   class Builder
     def collection(obj, options={}, &block)
       obj.inject [] do |res, x|
-        res << object(obj, options, block)
+        res << object(x, options, &block)
       end
     end
 

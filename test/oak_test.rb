@@ -6,7 +6,9 @@ class OakBuilderTest < ActiveSupport::TestCase
   end
 
   setup do
-    @post = Post.new :title => 'Hi!', :body => 'Sample text!'
+    @post  = Post.new :title => 'Hi!', :body => 'Sample text!'
+    @post2 = Post.new :title => 'Hi 2!', :body => 'Sample text!'
+    @posts = [@post, @post2]
     @builder = Oak::Builder.new
   end
 
@@ -64,7 +66,7 @@ class OakBuilderTest < ActiveSupport::TestCase
     assert_equal ({ 'post' => {'body'=>"sample text!", "title"=>"Hi!"}}), res
   end
 
-    test 'test with block and renamed root' do
+  test 'test with block and renamed root' do
     ActiveRecord::Base.include_root_in_json = true
     post = @post
 
@@ -77,5 +79,16 @@ class OakBuilderTest < ActiveSupport::TestCase
     end
 
     assert_equal ({ 'bost' => {'body'=>"sample text!", "title"=>"Hi!"}}), res
+  end
+
+  test 'test collection' do
+    ActiveRecord::Base.include_root_in_json = false
+    posts = @posts
+
+    res = @builder.instance_eval do
+      collection posts, :only => [:title, :body]
+    end
+
+    assert_equal ([{ 'body'=>"Sample text!", "title"=>"Hi!"}, {'body' => 'Sample text!', 'title' => 'Hi 2!'}]), res
   end
 end
