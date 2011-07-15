@@ -1,5 +1,7 @@
 module Oak
   class Builder
+    include ActionView::Helpers
+
     def initialize(source, options={})
       @_source = source
       @_options = options
