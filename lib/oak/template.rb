@@ -31,7 +31,7 @@ if defined?(Rails) && Rails.version =~ /^2/
 
         def compile(template) %{
           ::Oak::Builder.new(#{template.source.inspect}, { :format => #{template.format.inspect} }).
-            render(self, assigns.merge(local_assigns))
+            render(self, assigns.merge(local_assigns)).to_json
         } end
       end
     end
@@ -57,10 +57,10 @@ if defined?(Rails) && Rails.version =~ /^3/
           end
 
           %{ ::Oak::Builder.new(#{source.inspect}).
-              render(self, assigns.merge(local_assigns)) }
-        end # call
-      end # rabl class
-    end # handlers
+              render(self, assigns.merge(local_assigns)).to_json }
+        end
+      end
+    end
   end
 
   ActionView::Template.register_template_handler :oak, ActionView::Template::Handlers::Oak

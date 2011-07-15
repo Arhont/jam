@@ -11,9 +11,4 @@ class OakTemplateTest < ActiveSupport::TestCase
     assert_equal ::Tilt['test.oak'], OakTemplate
   end
 
-  test 'that it evaluates in object scope' do
-    scope = Object.new
-    scope.instance_variable_set :@post, @post
-    assert_equal ({'title' => 'hi'}), @json.render(scope)
-  end
 end
