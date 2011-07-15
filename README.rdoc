@@ -1,3 +1,29 @@
 = Oak
 
 This project rocks and uses MIT-LICENSE.
+
+== Example
+
+=== Basic usage
+
+  object @post do |p|
+    {
+      :body => p.downcase
+    }
+  end
+
+=== Use to_json attributes (only, except, methods, root)
+
+  object @post, :only => [:title] do |p|
+    {
+      :body => p.downcase
+    }
+  end
+
+=== For collections
+
+  collection @posts do |p|
+    {
+      :body => p.downcase
+    }
+  end
