@@ -41,11 +41,41 @@ class OakBuilderTest < ActiveSupport::TestCase
     res = @builder.instance_eval do
       object post, :only => [:title] do |x|
         {
+          :body => x.body.downcase
+        }
+      end
+    end
+
+    assert_equal ({:body=>"sample text!", "title"=>"Hi!"}), res
+  end
+
+  test 'test with block and root' do
+    ActiveRecord::Base.include_root_in_json = true
+    post = @post
+
+    res = @builder.instance_eval do
+      object post, :only => [:title] do |x|
+        {
           'body' => x.body.downcase
         }
       end
     end
 
-    assert_equal ({"body"=>"sample text!", "title"=>"Hi!"}), res
+    assert_equal ({ 'post' => {'body'=>"sample text!", "title"=>"Hi!"}}), res
+  end
+
+    test 'test with block and renamed root' do
+    ActiveRecord::Base.include_root_in_json = true
+    post = @post
+
+    res = @builder.instance_eval do
+      object post, :only => [:title], :root => 'bost' do |x|
+        {
+          'body' => x.body.downcase
+        }
+      end
+    end
+
+    assert_equal ({ 'bost' => {'body'=>"sample text!", "title"=>"Hi!"}}), res
   end
 end
