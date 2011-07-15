@@ -22,12 +22,30 @@ class OakBuilderTest < ActiveSupport::TestCase
     end
 
     assert_equal ({"created_at"=>nil, "body"=>"Sample text!", "title"=>"Hi!", "updated_at"=>nil}), res
+  end
 
-
+  test 'test with root' do
+    ActiveRecord::Base.include_root_in_json = true
+    post = @post
     res = @builder.instance_eval do
       object post, :only => [:title, :body]
     end
 
-    assert_equal ({"body"=>"Sample text!", "title"=>"Hi!"}), res
+    assert_equal ({'post' => {"body"=>"Sample text!", "title"=>"Hi!"}}), res
+  end
+
+  test 'test with block' do
+    ActiveRecord::Base.include_root_in_json = false
+    post = @post
+
+    res = @builder.instance_eval do
+      object post, :only => [:title] do |x|
+        {
+          'body' => x.body.downcase
+        }
+      end
+    end
+
+    assert_equal ({"body"=>"sample text!", "title"=>"Hi!"}), res
   end
 end
