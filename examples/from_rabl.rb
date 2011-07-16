@@ -21,11 +21,11 @@ code :pages_amount do |x|
 end
 
 # to Jam
-collection @versions, :only => [:number] { |v|
+collection @versions, :only => [:number] do |v|
   {
     :date    => v.created_at.strftime("%Y-%m-%d %H:%M"),
     :current => v.current? ? 'current' : content_tag(:a, 'make current', :class => 'make-current'),
     :view    => v.current? ? 'view' : content_tag(:a, 'view', :class => 'view-version'),
     :pages_amount => v.pages.count
   }
-}
+end
