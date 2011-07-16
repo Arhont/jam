@@ -22,20 +22,20 @@ module Oak
 
     def object(obj, options={}, &block)
       if ActiveRecord::Base.include_root_in_json
-        root = options[:root] || obj.class.model_name.element.to_sym
+        root = options[:root] || obj.class.model_name.element
       end
 
       result = {}
 
-      result.merge!(obj.as_json(options).symbolize_keys)
+      result.merge!(obj.as_json(options))
 
       if block
-        result.merge! block.call(obj) unless root
-        result[root].merge! block.call(obj) if root
+        blk = block.call(obj).stringify_keys
+        result.merge!(blk) unless root
+        result[root].merge!(blk) if root
       end
 
-      result[root].symbolize_keys! if root
-      result
+      result.stringify_keys
     end
 
     def template(file, vars={})
@@ -43,7 +43,7 @@ module Oak
       vars.each do |k, v|
         @_scope.instance_variable_set k, v
       end
-      Oak::Builder.new(source).render(@_scope, {})
+      Oak::Builder.new(source).render(@_scope, @_locals)
     end
 
     protected

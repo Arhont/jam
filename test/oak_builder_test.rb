@@ -16,16 +16,16 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   # Context object
   test 'basic test' do
-    template = OakTemplate.new { 'object @post' }
-    assert_equal ({:created_at=>nil, :body=>"Sample text!", :title=>"Hi!", :updated_at=>nil}), template.render(@scope)
+    t = OakTemplate.new { 'object @post' }
+    assert_equal ({'created_at' => nil, 'body' => "Sample text!", 'title' => "Hi!", 'updated_at' => nil}), t.render(@scope)
   end
 
   test 'with root' do
     ActiveRecord::Base.include_root_in_json = true
-    template = OakTemplate.new do
+    t = OakTemplate.new do
       'object @post, :only => [:title, :body]'
     end
-    assert_equal ({:post => {:body=>"Sample text!", :title=>"Hi!"}}), template.render(@scope)
+    assert_equal ({'post' => {'body' => "Sample text!", 'title' => "Hi!"}}), t.render(@scope)
   end
 
   test 'with root and block' do
@@ -37,7 +37,7 @@ class OakBuilderTest < ActiveSupport::TestCase
         }
       }
     end
-    assert_equal ({:post => {:body=>"sample text!", :title=>"Hi!"}}), template.render(@scope)
+    assert_equal ({'post' => {'body' => "sample text!", 'title' => "Hi!"}}), template.render(@scope)
   end
 
   test 'with block and renamed root' do
@@ -49,7 +49,7 @@ class OakBuilderTest < ActiveSupport::TestCase
         }
       }
     end
-    assert_equal ({ :bost => {:body=>"sample text!", :title=>"Hi!"}}), template.render(@scope)
+    assert_equal ({'bost' => {'body' => "sample text!", 'title' => "Hi!"}}), template.render(@scope)
   end
 
   test 'collection' do
@@ -57,7 +57,7 @@ class OakBuilderTest < ActiveSupport::TestCase
     template = OakTemplate.new do
       'collection @posts, :only => [:title, :body]'
     end
-    assert_equal ([{:body=>"Sample text!", :title=>"Hi!"}, {:body => 'Sample text!', :title => 'Hi 2!'}]), template.render(@scope)
+    assert_equal ([{'body' => "Sample text!", 'title' => "Hi!"}, {'body' => 'Sample text!', 'title' => 'Hi 2!'}]), template.render(@scope)
   end
 
   test 'with helpers' do
@@ -69,6 +69,6 @@ class OakBuilderTest < ActiveSupport::TestCase
         }
       }
     end
-    assert_equal ({:title => '<b>Hi!</b>'}), template.render(@scope)
+    assert_equal ({'title' => '<b>Hi!</b>'}), template.render(@scope)
   end
 end
