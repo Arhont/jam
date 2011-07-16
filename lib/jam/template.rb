@@ -1,14 +1,14 @@
 # TILT Template
 if defined?(Tilt)
-  class OakTemplate < Tilt::Template
+  class JamTemplate < Tilt::Template
     def initialize_engine
-      return if defined?(::Oak)
-      require_template_library 'oak'
+      return if defined?(::Jam)
+      require_template_library 'jam'
     end
 
     def prepare
       options = @options.merge(:format => @options[:format])
-      @engine = ::Oak::Builder.new(data, options)
+      @engine = ::Jam::Builder.new(data, options)
     end
 
     def evaluate(scope, locals, &block)
@@ -16,7 +16,7 @@ if defined?(Tilt)
     end
   end
 
-  Tilt.register 'oak', OakTemplate
+  Tilt.register 'jam', JamTemplate
 end
 
 # Rails 2.X Template
@@ -26,25 +26,25 @@ if defined?(Rails) && Rails.version =~ /^2/
 
   module ActionView
     module TemplateHandlers
-      class OakHandler < TemplateHandler
+      class JamHandler < TemplateHandler
         include Compilable
 
         def compile(template) %{
-          ::Oak::Builder.new(#{template.source.inspect}, { :format => #{template.format.inspect} }).
+          ::Jam::Builder.new(#{template.source.inspect}, { :format => #{template.format.inspect} }).
             render(self, assigns.merge(local_assigns)).to_json
         } end
       end
     end
   end
 
-  ActionView::Template.register_template_handler :oak, ActionView::TemplateHandlers::OakHandler
+  ActionView::Template.register_template_handler :jam, ActionView::TemplateHandlers::JamHandler
 end
 
 # Rails 3.X Template
 if defined?(Rails) && Rails.version =~ /^3/
   module ActionView
     module Template::Handlers
-      class Oak
+      class Jam
 
         class_attribute :default_format
         self.default_format = Mime::JSON
@@ -56,12 +56,12 @@ if defined?(Rails) && Rails.version =~ /^3/
             template.source
           end
 
-          %{ ::Oak::Builder.new(#{source.inspect}).
+          %{ ::Jam::Builder.new(#{source.inspect}).
               render(self, assigns.merge(local_assigns)).to_json }
         end
       end
     end
   end
 
-  ActionView::Template.register_template_handler :oak, ActionView::Template::Handlers::Oak
+  ActionView::Template.register_template_handler :jam, ActionView::Template::Handlers::Jam
 end

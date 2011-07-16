@@ -1,4 +1,4 @@
-module Oak
+module Jam
   class Builder
     include ActionView::Helpers
 
@@ -43,7 +43,7 @@ module Oak
       vars.each do |k, v|
         @_scope.instance_variable_set k, v
       end
-      Oak::Builder.new(source).render(@_scope, @_locals)
+      Jam::Builder.new(source).render(@_scope, @_locals)
     end
 
     protected
@@ -58,7 +58,7 @@ module Oak
     def fetch_source(file, options={})
       root_path = Rails.root if defined?(Rails)
       view_path = options[:view_path] || File.join(root_path, "app/views/")
-      file_path = Dir[File.join(view_path, file + "*.oak")].first
+      file_path = Dir[File.join(view_path, file + "*.jam")].first
       File.read(file_path) if file_path
     end
   end

@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class OakBuilderTest < ActiveSupport::TestCase
+class JamBuilderTest < ActiveSupport::TestCase
   test "" do
-    assert_kind_of Module, Oak
+    assert_kind_of Module, Jam
   end
 
   setup do
@@ -16,13 +16,13 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   # Context object
   test 'basic test' do
-    t = OakTemplate.new { 'object @post' }
+    t = JamTemplate.new { 'object @post' }
     assert_equal ({'created_at' => nil, 'body' => "Sample text!", 'title' => "Hi!", 'updated_at' => nil}), t.render(@scope)
   end
 
   test 'with root' do
     ActiveRecord::Base.include_root_in_json = true
-    t = OakTemplate.new do
+    t = JamTemplate.new do
       'object @post, :only => [:title, :body]'
     end
     assert_equal ({'post' => {'body' => "Sample text!", 'title' => "Hi!"}}), t.render(@scope)
@@ -30,7 +30,7 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   test 'with root and block' do
     ActiveRecord::Base.include_root_in_json = true
-    template = OakTemplate.new do
+    template = JamTemplate.new do
       %q{
         object(@post, :only => [:title]) { |p|
           { :body => p.body.downcase }
@@ -42,7 +42,7 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   test 'with block and renamed root' do
     ActiveRecord::Base.include_root_in_json = true
-    template = OakTemplate.new do
+    template = JamTemplate.new do
       %q{
         object(@post, :only => [:title], :root => :bost) { |x|
           { :body => x.body.downcase }
@@ -54,7 +54,7 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   test 'collection' do
     ActiveRecord::Base.include_root_in_json = false
-    template = OakTemplate.new do
+    template = JamTemplate.new do
       'collection @posts, :only => [:title, :body]'
     end
     assert_equal ([{'body' => "Sample text!", 'title' => "Hi!"}, {'body' => 'Sample text!', 'title' => 'Hi 2!'}]), template.render(@scope)
@@ -62,7 +62,7 @@ class OakBuilderTest < ActiveSupport::TestCase
 
   test 'with helpers' do
     ActiveRecord::Base.include_root_in_json = false
-    template = OakTemplate.new do
+    template = JamTemplate.new do
       %q{
         object(@post, :only => [:title]) { |p|
           { :title => content_tag(:b, p.title) }
