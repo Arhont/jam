@@ -31,7 +31,11 @@ class OakBuilderTest < ActiveSupport::TestCase
   test 'with root and block' do
     ActiveRecord::Base.include_root_in_json = true
     template = OakTemplate.new do
-      'object(@post, :only => [:title]) { |p| { :body => p.body.downcase } }'
+      %q{
+        object(@post, :only => [:title]) { |p|
+          { :body => p.body.downcase }
+        }
+      }
     end
     assert_equal ({:post => {:body=>"sample text!", :title=>"Hi!"}}), template.render(@scope)
   end
@@ -39,7 +43,11 @@ class OakBuilderTest < ActiveSupport::TestCase
   test 'with block and renamed root' do
     ActiveRecord::Base.include_root_in_json = true
     template = OakTemplate.new do
-      'object(@post, :only => [:title], :root => :bost) { |x| { :body => x.body.downcase }}'
+      %q{
+        object(@post, :only => [:title], :root => :bost) { |x|
+          { :body => x.body.downcase }
+        }
+      }
     end
     assert_equal ({ :bost => {:body=>"sample text!", :title=>"Hi!"}}), template.render(@scope)
   end
@@ -55,7 +63,11 @@ class OakBuilderTest < ActiveSupport::TestCase
   test 'with helpers' do
     ActiveRecord::Base.include_root_in_json = false
     template = OakTemplate.new do
-      'object(@post, :only => [:title]) {|p| { :title => content_tag(:b, p.title) } }'
+      %q{
+        object(@post, :only => [:title]) { |p|
+          { :title => content_tag(:b, p.title) }
+        }
+      }
     end
     assert_equal ({:title => '<b>Hi!</b>'}), template.render(@scope)
   end
