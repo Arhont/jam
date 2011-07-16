@@ -1,0 +1,11 @@
+collection @company.projects, :only => [:id, :subdomain] do |p|
+  {
+    :company_name       => p.company.name,
+    :company_owner_name => p.company.owner.fullname,
+    :project_name       => p.name,
+    :contact_name       => p.company.owner.fullname,
+    :status             => p.status_name,
+    :creation_date      => p.created_at.month.to_s + '.' + p.created_at.day.to_s + '.' + p.created_at.year.to_s,
+    :company_subdomain  => p.company.subdomain
+  }
+end
