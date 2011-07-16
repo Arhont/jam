@@ -38,11 +38,28 @@ module Oak
       result
     end
 
+    def template(file, vars={})
+      source = self.fetch_source(file)
+      vars.each do |k, v|
+        @_scope.instance_variable_set k, v
+      end
+      Oak::Builder.new(source).render(@_scope, {})
+    end
+
     protected
 
     def copy_instance_variables_from(object, exclude = []) #:nodoc:
       vars = object.instance_variables.map(&:to_s) - exclude.map(&:to_s)
       vars.each { |name| instance_variable_set(name, object.instance_variable_get(name)) }
+    end
+
+    # Returns source for a given relative file
+    # fetch_source("show", :view_path => "...") => "...contents..."
+    def fetch_source(file, options={})
+      root_path = Rails.root if defined?(Rails)
+      view_path = options[:view_path] || File.join(root_path, "app/views/")
+      file_path = Dir[File.join(view_path, file + "*.oak")].first
+      File.read(file_path) if file_path
     end
   end
 end

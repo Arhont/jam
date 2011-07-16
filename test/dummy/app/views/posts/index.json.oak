@@ -1,1 +1,3 @@
-object @posts
+collection @posts do |post|
+  template('posts/show', :@post => post)
+end
