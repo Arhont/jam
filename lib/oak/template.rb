@@ -26,7 +26,7 @@ if defined?(Rails) && Rails.version =~ /^2/
 
   module ActionView
     module TemplateHandlers
-      class RablHandler < TemplateHandler
+      class OakHandler < TemplateHandler
         include Compilable
 
         def compile(template) %{
