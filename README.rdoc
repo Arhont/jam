@@ -69,6 +69,8 @@ Works like in Rails to_json:
 
   object @post, :root => :bost
 
+[Other examples](https://github.com/edtsech/jam/tree/master/examples)
+
 == Contributions
 
 We open for you contributions, sugesstions and ideas.
