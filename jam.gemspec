@@ -2,7 +2,7 @@
 # project in your rails apps through git.
 Gem::Specification.new do |s|
   s.name = "jam-ruby"
-  s.version = "0.0.3"
+  s.version = "0.0.4"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Eduard Tsech"]
   s.email       = ["edtsech@gmail.com"]
