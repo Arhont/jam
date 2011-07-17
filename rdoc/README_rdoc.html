@@ -76,9 +76,21 @@
     
 <h1><a href="Jam.html">Jam</a></h1>
 
-<p>This project rocks and uses MIT-LICENSE.</p>
+<pre>Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.</pre>
 
-<h2>Example</h2>
+<h2>Installation</h2>
+
+<pre>gem install jam</pre>
+
+<h2>Configuration</h2>
+
+<p>Standart Rails configuration:</p>
+
+<pre>ActiveRecord::Base.include_root_in_json = true</pre>
+
+<p>It’s all.</p>
+
+<h2>Examples</h2>
 
 <h3>Basic usage</h3>
 
@@ -98,11 +110,74 @@ end</pre>
 
 <h3>For collections</h3>
 
-<pre>collection @posts do |p|
+<pre>collection @posts { |p|
   {
     :body =&gt; p.downcase
   }
+}</pre>
+
+<h3>Use template</h3>
+
+<pre>collection @posts do |post|
+  template('posts/show', :@post =&gt; post)
 end</pre>
+
+<h3>Add children</h3>
+
+<pre>collection @posts do |p|
+  {
+    :comments =&gt; collection p.comments, :only =&gt; [:body]...
+  }
+end</pre>
+
+<h3>Root</h3>
+
+<p>Works like in Rails:</p>
+
+<pre>object @post, :root =&gt; :bost</pre>
+
+<p>But also we have special syntax that idependent of
+ActiveRecord::Base.include_root_in_json = true</p>
+
+<pre>object @post =&gt; :bost</pre>
+
+<h2>Contributions</h2>
+
+<p>We open for you contributions, sugesstions and ideas.</p>
+
+<h2>Inspired by</h2>
+<ul><li>
+<p>Tequila</p>
+</li><li>
+<p>Rabl</p>
+</li></ul>
+
+<p>Some of code copied from RABL</p>
+
+<h2>Licence</h2>
+
+<p>The MIT License</p>
+
+<p>Copyright © 2011 Eduard Tsech edtsech@gmail.com</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the
+following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.</p>
 
   </div>
 

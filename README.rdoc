@@ -1,8 +1,20 @@
 = Jam
 
-This project rocks and uses MIT-LICENSE.
+  Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.
 
-== Example
+== Installation
+
+  gem install jam
+
+== Configuration
+
+Standart Rails configuration:
+
+  ActiveRecord::Base.include_root_in_json = true
+
+It's all.
+
+== Examples
 
 === Basic usage
 
@@ -22,8 +34,67 @@ This project rocks and uses MIT-LICENSE.
 
 === For collections
 
-  collection @posts do |p|
+  collection @posts { |p|
     {
       :body => p.downcase
     }
+  }
+
+=== Use template
+
+  collection @posts do |post|
+    template('posts/show', :@post => post)
   end
+
+=== Add children
+
+  collection @posts do |p|
+    {
+      :comments => collection p.comments, :only => [:body]...
+    }
+  end
+
+=== Root
+
+Works like in Rails:
+
+  object @post, :root => :bost
+
+But also we have special syntax that idependent of ActiveRecord::Base.include_root_in_json = true
+
+  object @post => :bost
+
+== Contributions
+
+We open for you contributions, sugesstions and ideas.
+
+== Inspired by
+
+- Tequila
+- Rabl
+
+Some of code copied from RABL
+
+== Licence
+
+The MIT License
+
+Copyright (c) 2011 Eduard Tsech edtsech@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
