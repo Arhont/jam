@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Eduard Tsech"]
   s.email       = ["edtsech@gmail.com"]
   s.homepage    = ""
-  s.summary = "JSON Api Maker."
+  s.summary     = "JSON Api Maker."
   s.description = "JSON Api Maker."
   s.files = Dir["{app,lib,config}/**/*"] + ["MIT-LICENSE", "Rakefile", "Gemfile", "README.rdoc"]
 end
