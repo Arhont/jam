@@ -1,6 +1,6 @@
 = Jam
 
-  Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.
+Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.
 
 == Installation
 
@@ -16,6 +16,7 @@ Standart Rails configuration:
 
 === Basic usage
 
+  # app/views/posts/show.json.jam
   object @post do |p|
     {
       :body => p.downcase
@@ -24,6 +25,7 @@ Standart Rails configuration:
 
 === Use to_json attributes (only, except, methods, root)
 
+  # app/views/posts/show.json.jam
   object @post, :only => [:title] do |p|
     {
       :body => p.downcase
@@ -32,6 +34,7 @@ Standart Rails configuration:
 
 === For collections
 
+  # app/views/posts/index.json.jam
   collection @posts { |p|
     {
       :body => p.downcase
@@ -40,12 +43,14 @@ Standart Rails configuration:
 
 === Use template
 
+  # app/views/posts/index.json.jam
   collection @posts do |post|
     template('posts/show', :@post => post)
   end
 
 === Add children
 
+  # app/views/posts/index.json.jam
   collection @posts do |p|
     {
       :comments => collection p.comments, :only => [:body]...
