@@ -25,5 +25,5 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.title    = 'jam'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('lib/jam/builder.rb')
 end
