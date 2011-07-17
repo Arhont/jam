@@ -12,8 +12,6 @@ Standart Rails configuration:
 
   ActiveRecord::Base.include_root_in_json = true
 
-It's all.
-
 == Examples
 
 === Basic usage
@@ -56,13 +54,9 @@ It's all.
 
 === Root
 
-Works like in Rails:
+Works like in Rails to_json:
 
   object @post, :root => :bost
-
-But also we have special syntax that idependent of ActiveRecord::Base.include_root_in_json = true
-
-  object @post => :bost
 
 == Contributions
 
@@ -73,7 +67,7 @@ We open for you contributions, sugesstions and ideas.
 - Tequila
 - Rabl
 
-Some of code copied from RABL
+Some of code was borrowed from RABL.
 
 == Licence
 
