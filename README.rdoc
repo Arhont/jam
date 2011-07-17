@@ -73,7 +73,7 @@ Other examples[link:https://github.com/edtsech/jam/tree/master/examples]
 
 == Contributions
 
-We open for you contributions, sugesstions and ideas.
+We open for you contributions, suggestions and ideas.
 
 == Inspired by
 
