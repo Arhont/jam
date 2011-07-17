@@ -77,8 +77,8 @@ We open for you contributions, sugesstions and ideas.
 
 == Inspired by
 
-- Tequila
-- Rabl
+- Tequila[link:https://github.com/inem/tequila]
+- Rabl[link:https://github.com/nesquena/rabl]
 
 Some of code was borrowed from RABL.
 
