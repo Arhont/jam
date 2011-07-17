@@ -76,11 +76,18 @@
     
 <h1><a href="Jam.html">Jam</a></h1>
 
-<pre>Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.</pre>
+<p><a href="Jam.html">Jam</a> - Simple, readable and flexible JSON Api Maker
+based on standart rails tools and hash syntax.</p>
 
 <h2>Installation</h2>
 
-<pre>gem install jam</pre>
+<p>Install <a href="Jam.html">Jam</a> as a gem:</p>
+
+<pre>gem install jam-ruby</pre>
+
+<p>or add to your Gemfile:</p>
+
+<pre>gem 'jam-ruby', :require =&gt; 'jam'</pre>
 
 <h2>Configuration</h2>
 
@@ -88,13 +95,12 @@
 
 <pre>ActiveRecord::Base.include_root_in_json = true</pre>
 
-<p>It’s all.</p>
-
 <h2>Examples</h2>
 
 <h3>Basic usage</h3>
 
-<pre>object @post do |p|
+<pre># app/views/posts/show.json.jam
+object @post do |p|
   {
     :body =&gt; p.downcase
   }
@@ -102,7 +108,8 @@ end</pre>
 
 <h3>Use to_json attributes (only, except, methods, root)</h3>
 
-<pre>object @post, :only =&gt; [:title] do |p|
+<pre># app/views/posts/show.json.jam
+object @post, :only =&gt; [:title] do |p|
   {
     :body =&gt; p.downcase
   }
@@ -110,7 +117,8 @@ end</pre>
 
 <h3>For collections</h3>
 
-<pre>collection @posts { |p|
+<pre># app/views/posts/index.json.jam
+collection @posts { |p|
   {
     :body =&gt; p.downcase
   }
@@ -118,13 +126,15 @@ end</pre>
 
 <h3>Use template</h3>
 
-<pre>collection @posts do |post|
+<pre># app/views/posts/index.json.jam
+collection @posts do |post|
   template('posts/show', :@post =&gt; post)
 end</pre>
 
 <h3>Add children</h3>
 
-<pre>collection @posts do |p|
+<pre># app/views/posts/index.json.jam
+collection @posts do |p|
   {
     :comments =&gt; collection p.comments, :only =&gt; [:body]...
   }
@@ -132,14 +142,12 @@ end</pre>
 
 <h3>Root</h3>
 
-<p>Works like in Rails:</p>
+<p>Works like in Rails to_json:</p>
 
 <pre>object @post, :root =&gt; :bost</pre>
 
-<p>But also we have special syntax that idependent of
-ActiveRecord::Base.include_root_in_json = true</p>
-
-<pre>object @post =&gt; :bost</pre>
+<p>Other <a
+href="https:/github.com/edtsech/jam/tree/master/examples">examples</a></p>
 
 <h2>Contributions</h2>
 
@@ -152,7 +160,7 @@ ActiveRecord::Base.include_root_in_json = true</p>
 <p>Rabl</p>
 </li></ul>
 
-<p>Some of code copied from RABL</p>
+<p>Some of code was borrowed from RABL.</p>
 
 <h2>Licence</h2>
 

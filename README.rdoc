@@ -69,7 +69,7 @@ Works like in Rails to_json:
 
   object @post, :root => :bost
 
-[Other examples](https://github.com/edtsech/jam/tree/master/examples)
+Other examples[link:https://github.com/edtsech/jam/tree/master/examples]
 
 == Contributions
 
