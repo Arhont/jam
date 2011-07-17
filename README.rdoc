@@ -4,7 +4,13 @@ Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools
 
 == Installation
 
-  gem install jam
+Install Jam as a gem:
+
+  gem install jam-ruby
+
+or add to your Gemfile:
+
+  gem 'jam-ruby', :require => 'jam'
 
 == Configuration
 
