@@ -25,7 +25,7 @@ Standart Rails configuration:
   # app/views/posts/show.json.jam
   object @post do |p|
     {
-      :body => p.downcase
+      :body => p.body.downcase
     }
   end
 
@@ -34,7 +34,7 @@ Standart Rails configuration:
   # app/views/posts/show.json.jam
   object @post, :only => [:title] do |p|
     {
-      :body => p.downcase
+      :body => p.body.downcase
     }
   end
 
@@ -43,7 +43,7 @@ Standart Rails configuration:
   # app/views/posts/index.json.jam
   collection @posts { |p|
     {
-      :body => p.downcase
+      :body => p.body.downcase
     }
   }
 
