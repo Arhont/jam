@@ -69,7 +69,7 @@ Works like in Rails to_json:
 
   object @post, :root => :bost
 
-Other examples[link:https://github.com/edtsech/jam/tree/master/examples]
+Other examples[https://github.com/edtsech/jam/tree/master/examples]
 
 == Contributions
 
@@ -77,8 +77,8 @@ We open for you contributions, suggestions and ideas.
 
 == Inspired by
 
-- Tequila[link:https://github.com/inem/tequila]
-- Rabl[link:https://github.com/nesquena/rabl]
+- Tequila[https://github.com/inem/tequila]
+- Rabl[https://github.com/nesquena/rabl]
 
 Some of code was borrowed from RABL.
 
