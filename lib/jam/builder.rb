@@ -43,12 +43,23 @@ module Jam
         root = options[:root] || obj.class.model_name.element
       end
 
-      result = obj.as_json(options)
+      result = {}
 
       if block
+        options[:only] ||= [:id]
+
         blk = block.call(obj).stringify_keys
         result.merge!(blk) unless root
-        result[root].merge!(blk) if root
+        result[root] = blk if root
+      end
+
+      as_json_res = obj.as_json(options)
+
+      if root
+        result[root] ||= {}
+        result[root].reverse_merge! as_json_res[root]
+      else
+        result.reverse_merge! as_json_res
       end
 
       result.stringify_keys

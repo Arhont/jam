@@ -16,8 +16,16 @@ class JamBuilderTest < ActiveSupport::TestCase
 
   # Context object
   test 'basic test' do
+    # If block not presented Jam generate all attributes
     t = JamTemplate.new { 'object @post' }
     assert_equal ({'created_at' => nil, 'body' => "Sample text!", 'title' => "Hi!", 'updated_at' => nil}), t.render(@scope)
+  end
+
+  test 'with block' do
+    # If block presented Jam generate only attributes from block
+    # and attributes setted in :only & :except keys
+    t = JamTemplate.new { 'object(@post) {|x| {:comments_count => 23} }' }
+    assert_equal ({'comments_count' => 23}), t.render(@scope)
   end
 
   test 'with root' do
