@@ -5,7 +5,7 @@ collection @company.projects, :only => [:id, :subdomain] do |p|
     :project_name       => p.name,
     :contact_name       => p.company.owner.fullname,
     :status             => p.status_name,
-    :creation_date      => p.created_at.month.to_s + '.' + p.created_at.day.to_s + '.' + p.created_at.year.to_s,
+    :creation_date      => p.created_at.strftime("%m.%d.%Y"),
     :company_subdomain  => p.company.subdomain
   }
 end

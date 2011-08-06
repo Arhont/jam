@@ -1,8 +1,9 @@
 {
   :results => @feeds_count,
   :rows => (
-    collection (@feeds, :only => [:id]) { |feed|
-      originator = feed.originator || feed.originator_type.constantize # If originator is deleted, it's class name will be used for calling methods
+    collection(@feeds) { |feed|
+      # Code in view blah blah blah... just for example
+      originator = feed.originator || feed.originator_type.constantize
 
       {
         :user      => feed.participant.try(:feed_title) || feed.data[:current_user_identity] ,
