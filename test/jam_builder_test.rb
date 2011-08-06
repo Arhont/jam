@@ -67,16 +67,4 @@ class JamBuilderTest < ActiveSupport::TestCase
     end
     assert_equal ([{'body' => "Sample text!", 'title' => "Hi!"}, {'body' => 'Sample text!', 'title' => 'Hi 2!'}]), template.render(@scope)
   end
-
-  test 'with helpers' do
-    ActiveRecord::Base.include_root_in_json = false
-    template = JamTemplate.new do
-      %q{
-        object(@post, :only => [:title]) { |p|
-          { :title => content_tag(:b, p.title) }
-        }
-      }
-    end
-    assert_equal ({'title' => '<b>Hi!</b>'}), template.render(@scope)
-  end
 end

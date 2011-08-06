@@ -1,1 +1,7 @@
-object @post, :only => [:title]
+object @post, :only => [:title] do |p|
+  {
+    :title => content_tag(:b, p.title),
+    :asd   => asd,
+    :user  => current_user
+  }
+end

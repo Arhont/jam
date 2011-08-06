@@ -1,6 +1,5 @@
 module Jam
   class Builder
-    include ActionView::Helpers
 
     # Constructs a new engine based on given source and options
     #
@@ -77,6 +76,11 @@ module Jam
     end
 
     protected
+
+    # Supports calling helpers defined for the template scope using method_missing hook
+    def method_missing(name, *args, &block)
+      @_scope.respond_to?(name) ? @_scope.send(name, *args, &block) : super
+    end
 
     def copy_instance_variables_from(object, exclude = []) #:nodoc:
       vars = object.instance_variables.map(&:to_s) - exclude.map(&:to_s)
