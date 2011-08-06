@@ -102,7 +102,7 @@ based on standart rails tools and hash syntax.</p>
 <pre># app/views/posts/show.json.jam
 object @post do |p|
   {
-    :body =&gt; p.downcase
+    :body =&gt; p.body.downcase
   }
 end</pre>
 
@@ -111,7 +111,7 @@ end</pre>
 <pre># app/views/posts/show.json.jam
 object @post, :only =&gt; [:title] do |p|
   {
-    :body =&gt; p.downcase
+    :body =&gt; p.body.downcase
   }
 end</pre>
 
@@ -120,7 +120,7 @@ end</pre>
 <pre># app/views/posts/index.json.jam
 collection @posts { |p|
   {
-    :body =&gt; p.downcase
+    :body =&gt; p.body.downcase
   }
 }</pre>
 
@@ -147,17 +147,17 @@ end</pre>
 <pre>object @post, :root =&gt; :bost</pre>
 
 <p>Other <a
-href="https:/github.com/edtsech/jam/tree/master/examples">examples</a></p>
+href="https://github.com/edtsech/jam/tree/master/examples">examples</a></p>
 
 <h2>Contributions</h2>
 
-<p>We open for you contributions, sugesstions and ideas.</p>
+<p>We open for you contributions, suggestions and ideas.</p>
 
 <h2>Inspired by</h2>
 <ul><li>
-<p>Tequila</p>
+<p><a href="https://github.com/inem/tequila">Tequila</a></p>
 </li><li>
-<p>Rabl</p>
+<p><a href="https://github.com/nesquena/rabl">Rabl</a></p>
 </li></ul>
 
 <p>Some of code was borrowed from RABL.</p>

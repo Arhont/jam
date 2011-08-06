@@ -71,6 +71,8 @@
           
           <li><a href="#method-i-fetch_source">#fetch_source</a></li>
           
+          <li><a href="#method-i-method_missing">#method_missing</a></li>
+          
           <li><a href="#method-i-object">#object</a></li>
           
           <li><a href="#method-i-render">#render</a></li>
@@ -81,18 +83,6 @@
       </div>
       
 
-      
-      <!-- Included Modules -->
-      <div id="includes-section" class="section">
-        <h3 class="section-header">Included Modules</h3>
-        <ul class="link-list">
-        
-        
-          <li><span class="include">ActionView::Helpers</span></li>
-        
-        
-        </ul>
-      </div>
       
     </div>
 
@@ -180,7 +170,7 @@
             
             <div class="method-source-code" id="new-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 8</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">source</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-ivar">@_source</span> = <span class="ruby-identifier">source</span>
   <span class="ruby-ivar">@_options</span> = <span class="ruby-identifier">options</span>
@@ -225,7 +215,7 @@ end</pre>
             
             <div class="method-source-code" id="collection-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 29</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">collection</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">inject</span> [] <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">res</span>, <span class="ruby-identifier">x</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">res</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">object</span>(<span class="ruby-identifier">x</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">block</span>)
@@ -265,7 +255,7 @@ end</pre>
             
             <div class="method-source-code" id="object-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 41</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">object</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-identifier">options</span>={}, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">include_root_in_json</span>
     <span class="ruby-identifier">root</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:root</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">model_name</span>.<span class="ruby-identifier">element</span>
@@ -273,12 +263,21 @@ end</pre>
 
   <span class="ruby-identifier">result</span> = {}
 
-  <span class="ruby-identifier">result</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">obj</span>.<span class="ruby-identifier">as_json</span>(<span class="ruby-identifier">options</span>))
-
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+    <span class="ruby-identifier">options</span>[<span class="ruby-value">:only</span>] <span class="ruby-operator">||=</span> [<span class="ruby-value">:id</span>]
+
     <span class="ruby-identifier">blk</span> = <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>).<span class="ruby-identifier">stringify_keys</span>
     <span class="ruby-identifier">result</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">blk</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">root</span>
-    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">root</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">blk</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">root</span>
+    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">root</span>] = <span class="ruby-identifier">blk</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">root</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">as_json_res</span> = <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">as_json</span>(<span class="ruby-identifier">options</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">root</span>
+    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">root</span>] <span class="ruby-operator">||=</span> {}
+    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">root</span>].<span class="ruby-identifier">reverse_merge!</span> <span class="ruby-identifier">as_json_res</span>[<span class="ruby-identifier">root</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">result</span>.<span class="ruby-identifier">reverse_merge!</span> <span class="ruby-identifier">as_json_res</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">result</span>.<span class="ruby-identifier">stringify_keys</span>
@@ -314,7 +313,7 @@ end</pre>
             
             <div class="method-source-code" id="render-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 16</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">locals</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@_locals</span>, <span class="ruby-ivar">@_scope</span> = <span class="ruby-identifier">locals</span>, <span class="ruby-identifier">scope</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">copy_instance_variables_from</span>(<span class="ruby-ivar">@_scope</span>, [<span class="ruby-value">:@assigns</span>, <span class="ruby-value">:@helpers</span>])
@@ -352,7 +351,7 @@ end</pre>
             
             <div class="method-source-code" id="template-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 62</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">template</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">vars</span>={})
   <span class="ruby-identifier">source</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">fetch_source</span>(<span class="ruby-identifier">file</span>)
   <span class="ruby-identifier">vars</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
@@ -397,7 +396,7 @@ end</pre>
             
             <div class="method-source-code" id="fetch_source-source">
 <pre>
-<span class="ruby-comment"># File lib/jam/builder.rb, line 80</span>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch_source</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">options</span>={})
   <span class="ruby-identifier">root_path</span> = <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Rails</span>)
   <span class="ruby-identifier">view_path</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:view_path</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_path</span>, <span class="ruby-string">&quot;app/views/&quot;</span>)
@@ -412,6 +411,40 @@ end</pre>
 
           
         </div><!-- fetch_source-method -->
+
+      
+        <div id="method_missing-method" class="method-detail ">
+          <a name="method-i-method_missing"></a>
+
+          
+          <div class="method-heading">
+            <span class="method-name">method_missing</span><span
+              class="method-args">(name, *args, &block)</span>
+            <span class="method-click-advice">click to toggle source</span>
+          </div>
+          
+
+          <div class="method-description">
+            
+            <p>Supports calling helpers defined for the template scope using <a
+href="Builder.html#method-i-method_missing">method_missing</a> hook</p>
+            
+
+            
+            <div class="method-source-code" id="method_missing-source">
+<pre>
+<span class="ruby-comment"># File lib/jam/builder.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-ivar">@_scope</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">?</span> <span class="ruby-ivar">@_scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">name</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword">super</span>
+<span class="ruby-keyword">end</span></pre>
+            </div><!-- method_missing-source -->
+            
+          </div>
+
+          
+
+          
+        </div><!-- method_missing-method -->
 
       
       </div><!-- protected-instance-method-details -->
