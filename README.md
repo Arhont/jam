@@ -1,88 +1,88 @@
-= Jam
+# Jam [![Build Status](http://travis-ci.org/edtsech/jam.png)](http://travis-ci.org/edtsech/jam)
 
 Jam - Simple, readable and flexible JSON Api Maker based on standart rails tools and hash syntax.
 
-== Installation
+## Installation
 
 Install Jam as a gem:
 
-  gem install jam-ruby
+    gem install jam-ruby
 
 or add to your Gemfile:
 
-  gem 'jam-ruby', :require => 'jam'
+    gem 'jam-ruby', :require => 'jam'
 
-== Configuration
+## Configuration
 
 Standart Rails configuration:
 
-  ActiveRecord::Base.include_root_in_json = true
+    ActiveRecord::Base.include_root_in_json = true
 
-== Examples
+## Examples
 
-=== Basic usage
+### Basic usage
 
-  # app/views/posts/show.json.jam
-  object @post do |p|
-    {
-      :body => p.body.downcase
+    # app/views/posts/show.json.jam
+    object @post do |p|
+      {
+        :body => p.body.downcase
+      }
+    end
+
+### Use to_json attributes (only, except, methods, root)
+
+    # app/views/posts/show.json.jam
+    object @post, :only => [:title] do |p|
+      {
+        :body => p.body.downcase
+      }
+    end
+
+### For collections
+
+    # app/views/posts/index.json.jam
+    collection @posts { |p|
+      {
+        :body => p.body.downcase
+      }
     }
-  end
 
-=== Use to_json attributes (only, except, methods, root)
+### Use template
 
-  # app/views/posts/show.json.jam
-  object @post, :only => [:title] do |p|
-    {
-      :body => p.body.downcase
-    }
-  end
+    # app/views/posts/index.json.jam
+    collection @posts do |post|
+      template('posts/show', :@post => post)
+    end
 
-=== For collections
+### Add children
 
-  # app/views/posts/index.json.jam
-  collection @posts { |p|
-    {
-      :body => p.body.downcase
-    }
-  }
+    # app/views/posts/index.json.jam
+    collection @posts do |p|
+      {
+        :comments => collection p.comments, :only => [:body]...
+      }
+    end
 
-=== Use template
-
-  # app/views/posts/index.json.jam
-  collection @posts do |post|
-    template('posts/show', :@post => post)
-  end
-
-=== Add children
-
-  # app/views/posts/index.json.jam
-  collection @posts do |p|
-    {
-      :comments => collection p.comments, :only => [:body]...
-    }
-  end
-
-=== Root
+### Root
 
 Works like in Rails to_json:
 
-  object @post, :root => :bost
+    object @post, :root => :bost
 
-Other examples[https://github.com/edtsech/jam/tree/master/examples]
+Other [examples](https://github.com/edtsech/jam/tree/master/examples)
 
-== Contributions
+## Contributions
 
 We open for you contributions, suggestions and ideas.
 
-== Inspired by
+## Inspired by
 
-- Tequila[https://github.com/inem/tequila]
-- Rabl[https://github.com/nesquena/rabl]
+- [Tequila](https://github.com/inem/tequila)
+- [Rabl](https://github.com/nesquena/rabl)
 
 Some of code was borrowed from RABL.
 
-== Licence
+## Licence
 
 The MIT License
 
