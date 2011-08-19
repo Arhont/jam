@@ -67,4 +67,15 @@ class JamBuilderTest < ActiveSupport::TestCase
     end
     assert_equal ([{'body' => "Sample text!", 'title' => "Hi!"}, {'body' => 'Sample text!', 'title' => 'Hi 2!'}]), template.render(@scope)
   end
+
+  test 'excpet with block' do
+    template = JamTemplate.new do
+      %q{
+        object(@post, :except => :id) {|p|
+          { :body => p.body.downcase }
+        }
+      }
+    end
+    assert_equal ({"created_at"=>nil, "title"=>"Hi!", "body"=>"sample text!", "updated_at"=>nil}), template.render(@scope)
+  end
 end

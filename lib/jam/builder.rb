@@ -45,7 +45,7 @@ module Jam
       result = {}
 
       if block
-        options[:only] ||= [:id]
+        options[:only] ||= [:id] unless options[:except]
 
         blk = block.call(obj).stringify_keys
         result.merge!(blk) unless root
